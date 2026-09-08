@@ -1,0 +1,2 @@
+# Base URL of the Node/Express backend (see ../backend, Part 2). Leave as-is for local dev.
+VITE_API_URL=http://localhost:5000
