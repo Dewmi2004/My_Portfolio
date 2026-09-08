@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { projects } from "../data/portfolioData";
 import { GithubIcon, ExternalLinkIcon, ArrowRightIcon, CloseIcon } from "./Icons";
 import Reveal from "./Reveal";
+import TiltCard from "./TiltCard";
 
 const TILE_GRADIENTS = [
   "linear-gradient(135deg, var(--sea-green-bright), var(--accent-strong))",
@@ -53,38 +54,45 @@ export default function Projects() {
 
         <div className="project-grid">
           {projects.map((project, i) => (
-            <Reveal key={project.title} delay={i * 80} className="project-tile" as="article">
-              <div
-                className="project-tile-image"
-                style={{ background: TILE_GRADIENTS[i % TILE_GRADIENTS.length] }}
-              >
-                <span className="project-index">{String(i + 1).padStart(2, "0")}</span>
-                <span className="project-tile-initials">{getInitials(project.title)}</span>
-              </div>
-
-              <div className="project-tile-body">
-                <h3 className="project-tile-title">{project.title.split(" — ")[0]}</h3>
-                <p className="project-tile-desc">{truncate(project.description)}</p>
-
-                <div className="project-tile-tech">
-                  {project.tech.slice(0, 3).map((t) => (
-                    <span className="skill-tag" key={t}>
-                      {t}
-                    </span>
-                  ))}
-                  {project.tech.length > 3 && (
-                    <span className="skill-tag">+{project.tech.length - 3}</span>
-                  )}
+            <Reveal
+              key={project.title}
+              delay={i * 80}
+              className={`project-tile-wrap${i === 0 ? " project-tile-featured" : ""}`}
+              as="article"
+            >
+              <TiltCard className="project-tile glass" strength={5}>
+                <div
+                  className="project-tile-image"
+                  style={{ background: TILE_GRADIENTS[i % TILE_GRADIENTS.length] }}
+                >
+                  <span className="project-index">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="project-tile-initials">{getInitials(project.title)}</span>
                 </div>
 
-                <button
-                  type="button"
-                  className="btn btn-ghost see-more-btn"
-                  onClick={() => setActiveIndex(i)}
-                >
-                  See more <ArrowRightIcon />
-                </button>
-              </div>
+                <div className="project-tile-body">
+                  <h3 className="project-tile-title">{project.title.split(" — ")[0]}</h3>
+                  <p className="project-tile-desc">{truncate(project.description)}</p>
+
+                  <div className="project-tile-tech">
+                    {project.tech.slice(0, 3).map((t) => (
+                      <span className="skill-tag" key={t}>
+                        {t}
+                      </span>
+                    ))}
+                    {project.tech.length > 3 && (
+                      <span className="skill-tag">+{project.tech.length - 3}</span>
+                    )}
+                  </div>
+
+                  <button
+                    type="button"
+                    className="btn btn-ghost see-more-btn"
+                    onClick={() => setActiveIndex(i)}
+                  >
+                    See more <ArrowRightIcon />
+                  </button>
+                </div>
+              </TiltCard>
             </Reveal>
           ))}
         </div>
@@ -93,7 +101,7 @@ export default function Projects() {
       {activeProject && (
         <div className="project-modal-overlay" onClick={() => setActiveIndex(null)}>
           <div
-            className="project-modal"
+            className="project-modal glass glass-strong"
             role="dialog"
             aria-modal="true"
             aria-labelledby="project-modal-title"

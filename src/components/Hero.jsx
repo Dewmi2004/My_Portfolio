@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { profile, socials } from "../data/portfolioData";
+import { profile, socials, projects } from "../data/portfolioData";
 import { GithubIcon, LinkedinIcon, MailIcon } from "./Icons";
 import portrait from "../assets/portrait.png";
 import Reveal from "./Reveal";
+import TiltCard from "./TiltCard";
 
 const ICONS = { github: GithubIcon, linkedin: LinkedinIcon, mail: MailIcon };
 
@@ -39,6 +40,11 @@ export default function Hero() {
     <section id="home" className="hero">
       <div className="container hero-inner">
         <Reveal>
+          <span className="status-pill">
+            <span className="status-dot" aria-hidden="true" />
+            Available for opportunities
+          </span>
+
           <p className="hero-eyebrow">Hello, it's me</p>
           <h1 className="hero-name">{profile.name}</h1>
           <p className="hero-role">
@@ -77,8 +83,15 @@ export default function Hero() {
 
         <Reveal delay={150} className="hero-portrait-wrap">
           <div className="hero-blob" aria-hidden="true" />
-          <div className="hero-photo">
-            <img src={portrait} alt={`Portrait of ${profile.name}`} />
+          <TiltCard className="hero-photo-card glass" strength={9}>
+            <div className="hero-photo">
+              <img src={portrait} alt={`Portrait of ${profile.name}`} />
+            </div>
+          </TiltCard>
+
+          <div className="hero-badge glass glass-strong">
+            <span className="hero-badge-num">{projects.length}+</span>
+            <span className="hero-badge-label">Projects shipped</span>
           </div>
         </Reveal>
       </div>

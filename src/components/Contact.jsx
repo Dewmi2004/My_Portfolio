@@ -52,7 +52,7 @@ export default function Contact() {
         </Reveal>
 
         <div className="contact-grid">
-          <Reveal>
+          <Reveal className="contact-panel glass">
             <div className="contact-info-item">
               <div className="contact-icon">
                 <MailIcon />
@@ -82,7 +82,7 @@ export default function Contact() {
             </div>
           </Reveal>
 
-          <Reveal delay={120} as="form" className="contact-form" onSubmit={handleSubmit}>
+          <Reveal delay={120} as="form" className="contact-panel glass contact-form" onSubmit={handleSubmit}>
             <div className="form-row">
               <div className="form-field">
                 <label htmlFor="name">Name</label>

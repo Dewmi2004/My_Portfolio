@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { SunIcon, MoonIcon, MenuIcon, CloseIcon } from "./Icons";
+import { useScrollProgress } from "../hooks/useScrollProgress";
 
 const LINKS = [
   { id: "home", label: "Home" },
@@ -12,6 +13,7 @@ const LINKS = [
 export default function Navbar({ theme, toggleTheme }) {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState("home");
+  const progress = useScrollProgress();
 
   useEffect(() => {
     const sections = LINKS.map((l) => document.getElementById(l.id)).filter(Boolean);
@@ -71,6 +73,7 @@ export default function Navbar({ theme, toggleTheme }) {
           </button>
         </div>
       </div>
+      <div className="navbar-progress" style={{ width: `${progress * 100}%` }} />
     </header>
   );
 }

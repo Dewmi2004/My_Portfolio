@@ -13,7 +13,7 @@ export default function EducationCerts() {
         </Reveal>
 
         <div className="edu-cert-grid">
-          <Reveal>
+          <Reveal className="edu-panel glass">
             <h3 style={{ marginBottom: 24, fontSize: "1.1rem" }}>Education</h3>
             {education.map((item) => (
               <div className="timeline-item" key={item.school}>
@@ -24,7 +24,7 @@ export default function EducationCerts() {
             ))}
           </Reveal>
 
-          <Reveal delay={120}>
+          <Reveal delay={120} className="edu-panel glass">
             <h3 style={{ marginBottom: 24, fontSize: "1.1rem" }}>Certifications</h3>
             {certifications.map((cert) => (
               <div className="cert-item" key={cert.name}>
