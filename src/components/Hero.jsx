@@ -77,7 +77,7 @@ export default function Hero() {
 
         <Reveal delay={150} className="hero-portrait-wrap">
           <div className="hero-blob" aria-hidden="true" />
-          <div className="hero-hex">
+          <div className="hero-photo">
             <img src={portrait} alt={`Portrait of ${profile.name}`} />
           </div>
         </Reveal>
