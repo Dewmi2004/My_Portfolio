@@ -4,19 +4,6 @@ import { GithubIcon, ExternalLinkIcon, ArrowRightIcon, CloseIcon } from "./Icons
 import Reveal from "./Reveal";
 import TiltCard from "./TiltCard";
 
-const TILE_GRADIENTS = [
-  "linear-gradient(135deg, var(--sea-green-bright), var(--accent-strong))",
-  "linear-gradient(135deg, var(--accent-strong), var(--sea-green-dim))",
-  "linear-gradient(160deg, var(--sea-green-bright), var(--sea-green-dim))",
-  "linear-gradient(120deg, var(--accent-strong), var(--sea-green-bright), var(--sea-green-dim))",
-  "linear-gradient(150deg, var(--sea-green-dim), var(--accent-strong))",
-];
-
-function getInitials(title) {
-  const words = title.match(/[A-Za-z]+/g) || [];
-  return words.slice(0, 2).map((w) => w[0].toUpperCase()).join("");
-}
-
 function truncate(text, max = 108) {
   if (text.length <= max) return text;
   return text.slice(0, max).replace(/\s+\S*$/, "") + "…";
@@ -61,12 +48,9 @@ export default function Projects() {
               as="article"
             >
               <TiltCard className="project-tile glass" strength={5}>
-                <div
-                  className="project-tile-image"
-                  style={{ background: TILE_GRADIENTS[i % TILE_GRADIENTS.length] }}
-                >
+                <div className="project-tile-image">
+                  <img src={project.image} alt={`${project.title} screenshot`} loading="lazy" />
                   <span className="project-index">{String(i + 1).padStart(2, "0")}</span>
-                  <span className="project-tile-initials">{getInitials(project.title)}</span>
                 </div>
 
                 <div className="project-tile-body">
@@ -116,11 +100,11 @@ export default function Projects() {
               <CloseIcon />
             </button>
 
-            <div
-              className="project-modal-image"
-              style={{ background: TILE_GRADIENTS[activeIndex % TILE_GRADIENTS.length] }}
-            >
-              <span className="project-tile-initials">{getInitials(activeProject.title)}</span>
+            <div className="project-modal-image">
+              <img
+                src={activeProject.image}
+                alt={`${activeProject.title} screenshot`}
+              />
             </div>
 
             <div className="project-modal-body">

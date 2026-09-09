@@ -38,9 +38,16 @@ export const spokenLanguages = [
   { name: "Tamil", level: "Intermediate" },
 ];
 
+import dewcodeImg from "../assets/projects/dewcode.jpg";
+import eventTicketingImg from "../assets/projects/event-ticketing.jpg";
+import novaxImg from "../assets/projects/novax.jpg";
+import fairvisionImg from "../assets/projects/fairvision.jpg";
+import estategoImg from "../assets/projects/estatego.jpg";
+
 export const projects = [
   {
     title: "DewCode — AI-Powered Developer Collaboration Platform",
+    image: dewcodeImg,
     description:
       "A full-stack, browser-based IDE combining AI-assisted development, secure Docker execution and real-time collaboration. Built with the Monaco editor, an integrated terminal and multi-language support, with AI code generation, debugging and review powered by locally hosted Ollama models.",
     highlights: [
@@ -53,6 +60,7 @@ export const projects = [
   },
   {
     title: "Smart Event Ticketing & Reservation System",
+    image: eventTicketingImg,
     description:
       "A full-stack event management and ticketing system with secure reservations, real-time seat locking, digital QR tickets and refund management, built end-to-end on Spring Boot.",
     highlights: [
@@ -65,6 +73,7 @@ export const projects = [
   },
   {
     title: "NovaX — Credit Card Default Risk Analysis",
+    image: novaxImg,
     description:
       "Led a 5-member data science team analyzing 30,000 credit card customer records to identify default-risk patterns and support data-driven lending decisions.",
     highlights: [
@@ -77,6 +86,7 @@ export const projects = [
   },
   {
     title: "FairVision — CNN-Based Age Classification & Fairness Audit",
+    image: fairvisionImg,
     description:
       "A 9-class age-group classification system built on a custom, VGG-inspired CNN trained from scratch on the FairFace dataset, with demographic fairness evaluation across race and gender.",
     highlights: [
@@ -90,6 +100,7 @@ export const projects = [
   },
   {
     title: "EstateGo — Real Estate Property Listing Mobile App",
+    image: estategoImg,
     description:
       "A cross-platform React Native app for browsing, managing and listing properties, with favorites, payments, maps and multi-language support.",
     highlights: [
