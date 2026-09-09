@@ -87,16 +87,86 @@ the backend is temporarily down.
 
 ## Deploying
 
-Any Node host works — **Render**, **Railway**, **Fly.io**, or a small VPS.
-Pair it with a free **MongoDB Atlas** cluster (whitelist the host's outbound
-IP, or `0.0.0.0/0` for simplicity on a personal project) and set the env vars
-above in the host's dashboard.
+### Vercel Services (recommended — one deployment with the frontend)
+
+If `frontend/` and `backend/` live in the same repo (`My_Portfolio/`), Vercel
+can deploy them together as one project using its **Services** feature —
+both under one domain, e.g. `https://my-portfolio.vercel.app` for the site
+and `https://my-portfolio.vercel.app/api/...` for the API. No CORS setup and
+no separate `VITE_API_URL` needed, since it's all same-origin.
+
+1. Add a **`vercel.json` at the repo root** (`My_Portfolio/vercel.json` —
+   *not* inside `frontend/` or `backend/`):
+   ```json
+   {
+     "services": {
+       "frontend": { "root": "frontend/" },
+       "backend": { "root": "backend/", "entrypoint": "api/index.js" }
+     },
+     "rewrites": [
+       { "source": "/api/(.*)", "destination": { "service": "backend" } },
+       { "source": "/(.*)", "destination": { "service": "frontend" } }
+     ]
+   }
+   ```
+2. Commit and push it.
+3. On [vercel.com](https://vercel.com), **Add New Project** → import the repo.
+   Vercel should auto-detect both services (frontend as Vite, backend as
+   Express) — if it shows a "vercel.json required" notice, that just means
+   it's waiting for the file above; click **Refresh** once it's pushed.
+4. Set **Environment Variables** on the project (these apply to the backend
+   service): `MONGO_URI` (MongoDB Atlas — see note below), `ADMIN_API_KEY`,
+   and the `SMTP_*` / `CONTACT_TO_EMAIL` ones if you want email notifications.
+   `FRONTEND_URL` and `VITE_API_URL` aren't needed in this setup since
+   everything is same-origin.
+5. Deploy.
+
+This repo's `api/index.js` (the serverless entry point) works for both this
+Services setup and the standalone approach below — no code changes needed
+either way.
+
+### Alternative: standalone backend project
+
+If you'd rather deploy the backend as its own separate Vercel project (its
+own domain, deployed independently from the frontend):
+
+1. Import `backend/` as its own Vercel project (Root Directory: `backend`).
+2. Add a `backend/vercel.json`:
+   ```json
+   { "rewrites": [{ "source": "/(.*)", "destination": "/api" }] }
+   ```
+3. Set the same env vars as above, plus `FRONTEND_URL` (for CORS) set to
+   your frontend's deployed URL.
+4. In the **frontend's** Vercel project, set `VITE_API_URL` to this backend's
+   deployed URL.
+
+**Two things worth knowing about running Express on Vercel either way:**
+- **MongoDB Atlas, not local MongoDB.** A serverless function can't reach
+  `mongodb://localhost` — use a MongoDB Atlas connection string in `MONGO_URI`,
+  and allow `0.0.0.0/0` in Atlas's Network Access (or Vercel's specific IP
+  ranges) since serverless functions don't have a fixed IP.
+- **Rate limiting is best-effort here.** `express-rate-limit`'s default store
+  is in-memory, which only persists within a single warm serverless instance —
+  fine for casual spam protection on a personal portfolio, but not a hard
+  guarantee under real load. A durable limit would need an external store
+  (e.g. Upstash Redis), which is out of scope for this project.
+
+### Alternative: Render / Railway / Fly.io
+
+If you'd rather run this as a normal always-on Node server instead of
+serverless (simpler mental model, no cold starts, rate-limiting works exactly
+as written), any of these work well — just set the same environment
+variables and use `npm start` as the start command.
+
+Pair any of the above with a free **MongoDB Atlas** cluster.
 
 ## Project structure
 
 ```
 backend/
-├── server.js                          # entry point: loads env, connects DB, starts the app
+├── server.js                          # local dev entry point (npm run dev / npm start)
+├── api/
+│   └── index.js                       # Vercel serverless entry point
 ├── src/
 │   ├── app.js                         # Express app: CORS, JSON parsing, routes, error handling
 │   ├── config/db.js                   # MongoDB connection (non-blocking on failure)

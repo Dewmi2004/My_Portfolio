@@ -37,12 +37,31 @@ If the backend is unreachable, the form automatically falls back to opening the 
 
 Any static host works well: **GitHub Pages**, **Vercel**, or **Netlify**.
 
+**Vercel — deployed together with the backend (recommended):**
+
+If `frontend/` and `backend/` are both in one repo (`My_Portfolio/`), add a
+`vercel.json` at the **repo root** (not inside `frontend/`) that defines both
+as Vercel Services — see the backend's README for the exact file and full
+steps. Vercel then builds and serves both from one project on one domain, so
+the contact form's `fetch("/api/contact")` resolves automatically — no
+`VITE_API_URL` or CORS config needed.
+
+**Vercel — frontend only (standalone):**
+1. Push this `frontend/` folder to a GitHub repo of its own.
+2. On [vercel.com](https://vercel.com), **Add New Project** → import the repo.
+3. Vercel auto-detects Vite: build command `npm run build`, output directory
+   `dist` — no changes needed.
+4. Add an **Environment Variable**: `VITE_API_URL` = your separately-deployed
+   backend's URL (e.g. `https://your-backend.vercel.app`).
+5. Deploy.
+
+If you go this route, also set the backend's `FRONTEND_URL` env var to this
+site's URL, so CORS allows requests from it (see the backend's README).
+
 **GitHub Pages (quick option):**
 1. `npm run build`
 2. Push the contents of `dist/` to a `gh-pages` branch (or use the `gh-pages` npm package / a GitHub Action).
 3. Enable Pages in the repo settings, pointing at that branch.
-
-**Vercel / Netlify:** import the repo, set the root directory to `frontend`, build command `npm run build`, output directory `dist`.
 
 ## Project structure
 

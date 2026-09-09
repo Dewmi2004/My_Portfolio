@@ -3,7 +3,12 @@ import { profile } from "../data/portfolioData";
 import { MailIcon, PhoneIcon, PinIcon } from "./Icons";
 import Reveal from "./Reveal";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+// In production (e.g. deployed together as Vercel Services), the frontend
+// and backend share one domain, so requests to "/api/..." resolve on their
+// own — no absolute URL needed. VITE_API_URL only matters for local dev,
+// where the backend runs on its own port, or if the backend is ever
+// deployed separately again.
+const API_URL = import.meta.env.VITE_API_URL ?? (import.meta.env.PROD ? "" : "http://localhost:5000");
 
 export default function Contact() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
